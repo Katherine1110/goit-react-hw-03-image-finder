@@ -4,12 +4,21 @@ const BASE_URL = "https://pixabay.com/api";
 
 const API_KEY = "20839696-a971fa945b676bf9ea56a302e";
 
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  timeout: 2000,
+});
+
+axiosInstance.defaults.params = {};
+axiosInstance.defaults.params["key"] = API_KEY;
+
 const fetchImages = ({ currentPage = 1, searchQuery = "" }) => {
-  return axios
+  return axiosInstance
     .get(
-      `${BASE_URL}/?q=${searchQuery}&page=${currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
+      `/?q=${searchQuery}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=12`
     )
     .then((response) => response.data.hits);
 };
-// console.log(fetchImages());
-export default { fetchImages };
+
+const apiObj = { fetchImages };
+export default apiObj;
